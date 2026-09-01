@@ -1,0 +1,35 @@
+{
+  "lockfile": true,
+  "nodeModulesDir": "auto",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "lib": ["dom", "dom.iterable", "deno.window"],
+    "types": ["react", "react-dom"]
+  },
+  "tasks": {
+    "dev": "deno task dev:server & deno task dev:client",
+    "dev:server": "deno run --allow-net=0.0.0.0:8000 --allow-read src/server/main.ts",
+    "dev:client": "deno run -A npm:vite",
+    "data:import": "deno run --allow-read --allow-write scripts/data/import.ts",
+    "data:validate": "deno run --allow-read scripts/data/validate.ts",
+    "data:build": "deno run --allow-read --allow-write scripts/data/build.ts",
+    "check": "deno fmt --check && deno lint && deno check src/ scripts/ tests/",
+    "test": "deno test --allow-read",
+    "build": "deno run -A npm:vite build"
+  },
+  "fmt": {
+    "exclude": ["node_modules", "dist"]
+  },
+  "lint": {
+    "exclude": ["node_modules", "dist"]
+  },
+  "imports": {
+    "@types/react": "npm:@types/react@^19.2.18",
+    "@types/react-dom": "npm:@types/react-dom@^19.2.5",
+    "@vitejs/plugin-react": "npm:@vitejs/plugin-react@^6.1.1",
+    "hono": "npm:hono@^4.13.5",
+    "react": "npm:react@^19.2.8",
+    "react-dom": "npm:react-dom@^19.2.8",
+    "vite": "npm:vite@^8.2.2"
+  }
+}
