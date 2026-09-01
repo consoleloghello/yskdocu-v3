@@ -32,6 +32,8 @@ export interface Question {
   answer: string | boolean | string[];
   /** 简答题类目的子类型（实操分析 / 应急处理），其余为空 */
   subtype?: string;
+  /** Enrich 阶段生成的学习辅助数据 */
+  enrichment?: QuestionEnrichment;
   metadata: {
     /** 在章节内的题号（从 1 开始，跨题型连续） */
     number: number;
@@ -40,6 +42,15 @@ export interface Question {
     /** 原始题型名称，如 "选择题" */
     originalType: string;
   };
+}
+
+export interface QuestionEnrichment {
+  /** 从答案中提取的关键词 */
+  keywords: string[];
+  /** 从答案中提取的要点（分点解析） */
+  keyPoints: string[];
+  /** 简短摘要 */
+  summary: string;
 }
 
 export interface Chapter {

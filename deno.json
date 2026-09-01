@@ -11,6 +11,7 @@
     "dev:server": "deno run --allow-net=0.0.0.0:8000 --allow-read src/server/main.ts",
     "dev:client": "deno run -A npm:vite",
     "data:import": "deno run --allow-read --allow-write scripts/data/import.ts",
+    "data:enrich": "deno run --allow-read --allow-write scripts/data/enrich.ts",
     "data:validate": "deno run --allow-read scripts/data/validate.ts",
     "data:build": "deno run --allow-read --allow-write scripts/data/build.ts",
     "check": "deno fmt --check && deno lint && deno check src/ scripts/ tests/",
