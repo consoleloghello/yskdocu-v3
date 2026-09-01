@@ -4,16 +4,9 @@
       "nei",
       "wai"
     ],
-    "importedAt": "2026-09-01T03:59:13.250Z",
-    "questionCount": 802,
-    "chapterCount": 18,
-    "skipped": [
-      {
-        "source": "wai",
-        "id": "wai-c2-q015",
-        "reason": "（给水加压泵站/选择题）: 答案 \"C\" 不在选项中"
-      }
-    ]
+    "importedAt": "2026-09-01T13:20:16.460Z",
+    "questionCount": 803,
+    "chapterCount": 18
   },
   "info": {
     "nei": {
@@ -603,6 +596,7 @@
         "wai-c2-q012",
         "wai-c2-q013",
         "wai-c2-q014",
+        "wai-c2-q015",
         "wai-c2-q016",
         "wai-c2-q017",
         "wai-c2-q018",
@@ -10077,6 +10071,36 @@
         {
           "key": "D",
           "text": "常压状态"
+        }
+      ],
+      "answer": "C"
+    },
+    {
+      "id": "wai-c2-q015",
+      "chapterId": "wai-c2",
+      "type": "single_choice",
+      "content": "低压生产水泵稳压控制是为了保证（  ）液位处于较高位置。",
+      "metadata": {
+        "number": 15,
+        "source": "wai",
+        "originalType": "选择题"
+      },
+      "options": [
+        {
+          "key": "A",
+          "text": "生活水箱"
+        },
+        {
+          "key": "B",
+          "text": "生产消防水罐"
+        },
+        {
+          "key": "C",
+          "text": "循环水场"
+        },
+        {
+          "key": "D",
+          "text": "稳流罐"
         }
       ],
       "answer": "C"

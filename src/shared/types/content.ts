@@ -66,8 +66,6 @@ export interface NormalizedData {
     importedAt: string;
     questionCount: number;
     chapterCount: number;
-    /** 导入时因源数据问题被跳过的题目 */
-    skipped: { source: string; id: string; reason: string }[];
   };
   info: Record<string, SourceInfo>;
   chapters: Chapter[];
