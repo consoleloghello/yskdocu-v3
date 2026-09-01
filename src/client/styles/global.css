@@ -1,0 +1,41 @@
+/**
+ * 设计系统 v0.1 —— 仅 Task 12 要求的基础组件
+ * CSS 变量做主题（Dark Mode 在 Day 3 扩展）
+ */
+
+:root {
+  --bg: #f7f8fa;
+  --surface: #ffffff;
+  --text: #1a1d21;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --primary: #2563eb;
+  --primary-weak: #eff6ff;
+  --success: #16a34a;
+  --danger: #dc2626;
+  --radius: 12px;
+  --shadow: 0 1px 3px rgb(0 0 0 / 0.08);
+  --transition: 180ms ease;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family:
+    -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@keyframes skeleton {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}

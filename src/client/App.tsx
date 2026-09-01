@@ -1,29 +1,60 @@
-import { useEffect, useState } from "react";
+import { NavLink, Route, Routes } from "react-router-dom";
+import { HomePage } from "./pages/HomePage.tsx";
+import { TopicPage } from "./pages/TopicPage.tsx";
+import { SearchPage } from "./pages/SearchPage.tsx";
+import { PracticePage, ReviewPage } from "./pages/PlaceholderPages.tsx";
 
-type Health = { ok: boolean; name: string; time: string };
+const navStyle = {
+  display: "flex",
+  gap: 4,
+  padding: "10px 16px",
+  borderBottom: "1px solid var(--border)",
+  background: "var(--surface)",
+  position: "sticky" as const,
+  top: 0,
+};
+
+const linkStyle = (active: boolean) => ({
+  padding: "6px 12px",
+  borderRadius: 8,
+  textDecoration: "none",
+  fontSize: 14,
+  color: active ? "var(--primary)" : "var(--text-secondary)",
+  background: active ? "var(--primary-weak)" : "transparent",
+  fontWeight: active ? 600 : 400,
+});
 
 export function App() {
-  const [health, setHealth] = useState<Health | null>(null);
-
-  useEffect(() => {
-    fetch("/api/health")
-      .then((r) => r.json())
-      .then(setHealth)
-      .catch(() => setHealth(null));
-  }, []);
-
   return (
-    <main style={{ fontFamily: "sans-serif", padding: "2rem" }}>
-      <h1>yskdocu v3</h1>
-      <p>React + Hono + Deno 骨架已就绪。</p>
-      <p>
-        API 状态：
-        {health === null
-          ? "连接中…"
-          : health.ok
-          ? `✅ 已连接 (${health.name})`
-          : "❌ 异常"}
-      </p>
-    </main>
+    <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px 40px" }}>
+      <nav style={navStyle}>
+        {[
+          ["/", "首页"],
+          ["/learn", "学习"],
+          ["/practice", "练习"],
+          ["/review", "复习"],
+          ["/search", "搜索"],
+        ].map(([to, label]) => (
+          <NavLink
+            key={to}
+            to={to}
+            end={to === "/"}
+            style={({ isActive }) => linkStyle(isActive)}
+          >
+            {label}
+          </NavLink>
+        ))}
+      </nav>
+      <main style={{ paddingTop: 16 }}>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/learn" element={<HomePage />} />
+          <Route path="/learn/:topicId" element={<TopicPage />} />
+          <Route path="/practice" element={<PracticePage />} />
+          <Route path="/review" element={<ReviewPage />} />
+          <Route path="/search" element={<SearchPage />} />
+        </Routes>
+      </main>
+    </div>
   );
 }
