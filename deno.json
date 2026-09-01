@@ -18,7 +18,7 @@
     "build": "deno run -A npm:vite build"
   },
   "fmt": {
-    "exclude": ["node_modules", "dist"]
+    "exclude": ["node_modules", "dist", "data/source"]
   },
   "lint": {
     "exclude": ["node_modules", "dist"]
@@ -30,6 +30,7 @@
     "hono": "npm:hono@^4.13.5",
     "react": "npm:react@^19.2.8",
     "react-dom": "npm:react-dom@^19.2.8",
-    "vite": "npm:vite@^8.2.2"
+    "vite": "npm:vite@^8.2.2",
+    "zod": "npm:zod@^4.5.4"
   }
 }
