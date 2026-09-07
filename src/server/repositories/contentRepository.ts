@@ -125,9 +125,7 @@ export async function searchQuestions(
     .filter((question) => {
       if (question.content.toLowerCase().includes(q)) return true;
       if (
-        (question.options ?? []).some((o) =>
-          o.text.toLowerCase().includes(q)
-        )
+        (question.options ?? []).some((o) => o.text.toLowerCase().includes(q))
       ) return true;
       return (question.enrichment?.keywords ?? []).some((k) =>
         k.toLowerCase().includes(q)
