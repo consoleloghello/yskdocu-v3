@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import type { Catalog } from "../../server/repositories/contentRepository.ts";
+import type { Catalog } from "../../shared/types/content.ts";
 import { apiClient } from "../lib/api.ts";
 import { Card, Skeleton } from "../components/ui.tsx";
 

@@ -5,34 +5,14 @@
  * API 层不直接接触文件系统。
  */
 
-import type { Question } from "../../shared/types/content.ts";
+import type {
+  Catalog,
+  ChapterDetail,
+  Question,
+} from "../../shared/types/content.ts";
 
-export interface CatalogChapter {
-  id: string;
-  name: string;
-  source: string;
-  questionCount: number;
-  typeBreakdown: {
-    single_choice: number;
-    true_false: number;
-    fill_blank: number;
-    short_answer: number;
-  };
-}
-
-export interface Catalog {
-  sources: Record<
-    string,
-    { title: string; version: string; total: number }
-  >;
-  chapters: CatalogChapter[];
-  totalQuestions: number;
-  buildAt: string;
-}
-
-export interface ChapterDetail extends CatalogChapter {
-  questionIds: string[];
-}
+// Catalog / CatalogChapter / ChapterDetail 统一定义在 shared/types/content.ts，
+// server 与 client 都从 shared 引用，不得跨层直接引用对方模块。
 
 const GEN_DIR = "data/generated";
 

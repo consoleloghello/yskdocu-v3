@@ -3,8 +3,8 @@
 import type {
   Catalog,
   ChapterDetail,
-} from "../../server/repositories/contentRepository.ts";
-import type { Question } from "../../shared/types/content.ts";
+  Question,
+} from "../../shared/types/content.ts";
 
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(path);

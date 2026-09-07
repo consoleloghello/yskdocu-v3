@@ -82,3 +82,40 @@ export interface NormalizedData {
   chapters: Chapter[];
   questions: Question[];
 }
+
+// ── API / Repository 层共享类型 ──────────────────────────
+
+/**
+ * catalog.json 中每个章节的概览条目。
+ * 由 data:build 生成，供 GET /api/catalog 返回。
+ */
+export interface CatalogChapter {
+  id: string;
+  name: string;
+  source: string;
+  questionCount: number;
+  typeBreakdown: {
+    single_choice: number;
+    true_false: number;
+    fill_blank: number;
+    short_answer: number;
+  };
+}
+
+/**
+ * GET /api/catalog 的完整响应结构。
+ */
+export interface Catalog {
+  sources: Record<string, { title: string; version: string; total: number }>;
+  chapters: CatalogChapter[];
+  totalQuestions: number;
+  buildAt: string;
+}
+
+/**
+ * chapters.json 中每章的详情（含 questionIds）。
+ * 由 GET /api/chapters/:id 返回。
+ */
+export interface ChapterDetail extends CatalogChapter {
+  questionIds: string[];
+}
