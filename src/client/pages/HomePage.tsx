@@ -123,7 +123,7 @@ export function HomePage() {
             {state.wrongAnswers.length} 题
           </div>
           <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>
-            复习页 Day 3 上线后可在此回顾。
+            按收藏回顾知识。
           </div>
         </Card>
       )}
