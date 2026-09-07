@@ -16,7 +16,7 @@ import type {
 // Catalog / CatalogChapter / ChapterDetail 统一定义在 shared/types/content.ts，
 // server 与 client 都从 shared 引用，不得跨层直接引用对方模块。
 
-const GEN_DIR = "data/generated";
+const GEN_DIR = new URL("../../data/generated", import.meta.url).pathname;
 
 interface Loaded {
   catalog: Catalog;
@@ -27,29 +27,36 @@ interface Loaded {
 }
 
 let cache: Loaded | null = null;
+let loading: Promise<Loaded> | null = null;
 
 async function load(): Promise<Loaded> {
   if (cache) return cache;
+  if (loading) return loading;
 
-  const read = (name: string) =>
-    Deno.readTextFile(`${GEN_DIR}/${name}`).then(JSON.parse);
+  loading = (async () => {
+    const read = (name: string) =>
+      Deno.readTextFile(`${GEN_DIR}/${name}`).then(JSON.parse);
 
-  const [catalog, chapters, questions] = await Promise.all([
-    read("catalog.json") as Promise<Catalog>,
-    read("chapters.json") as Promise<ChapterDetail[]>,
-    read("questions.json") as Promise<Question[]>,
-  ]);
+    const [catalog, chapters, questions] = await Promise.all([
+      read("catalog.json") as Promise<Catalog>,
+      read("chapters.json") as Promise<ChapterDetail[]>,
+      read("questions.json") as Promise<Question[]>,
+    ]);
 
-  const questionById = new Map(questions.map((q) => [q.id, q]));
-  const questionsByChapter = new Map<string, Question[]>();
-  for (const q of questions) {
-    const list = questionsByChapter.get(q.chapterId) ?? [];
-    list.push(q);
-    questionsByChapter.set(q.chapterId, list);
-  }
+    const questionById = new Map(questions.map((q) => [q.id, q]));
+    const questionsByChapter = new Map<string, Question[]>();
+    for (const q of questions) {
+      const list = questionsByChapter.get(q.chapterId) ?? [];
+      list.push(q);
+      questionsByChapter.set(q.chapterId, list);
+    }
 
-  cache = { catalog, chapters, questions, questionById, questionsByChapter };
-  return cache;
+    cache = { catalog, chapters, questions, questionById, questionsByChapter };
+    loading = null;
+    return cache;
+  })();
+
+  return loading;
 }
 
 // ── 查询接口 ──────────────────────────────────────────
