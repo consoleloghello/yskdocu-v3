@@ -9,6 +9,7 @@ import type {
   Catalog,
   ChapterDetail,
   Question,
+  QuestionType,
 } from "../../shared/types/content.ts";
 
 // Catalog / CatalogChapter / ChapterDetail 统一定义在 shared/types/content.ts，
@@ -83,7 +84,35 @@ export async function getQuestions(
     .filter((q): q is Question => q !== undefined);
 }
 
-/** 简单全文搜索：题干 + 关键词，返回前 limit 条 */
+export interface ListQuestionsOptions {
+  chapterId?: string;
+  type?: QuestionType;
+  limit?: number;
+  offset?: number;
+}
+
+/** 题目列表：支持按章节 / 题型过滤 + 分页，供 GET /api/questions 使用 */
+export async function listQuestions(
+  opts: ListQuestionsOptions = {},
+): Promise<{ total: number; results: Question[] }> {
+  const { questions } = await load();
+  const { chapterId, type } = opts;
+  const limit = Math.min(Math.max(opts.limit ?? 20, 1), 100);
+  const offset = Math.max(opts.offset ?? 0, 0);
+
+  const filtered = questions.filter((q) => {
+    if (chapterId && q.chapterId !== chapterId) return false;
+    if (type && q.type !== type) return false;
+    return true;
+  });
+
+  return {
+    total: filtered.length,
+    results: filtered.slice(offset, offset + limit),
+  };
+}
+
+/** 简单全文搜索：题干 + 选项文本 + 关键词，返回前 limit 条 */
 export async function searchQuestions(
   query: string,
   limit = 20,
@@ -95,6 +124,11 @@ export async function searchQuestions(
   return questions
     .filter((question) => {
       if (question.content.toLowerCase().includes(q)) return true;
+      if (
+        (question.options ?? []).some((o) =>
+          o.text.toLowerCase().includes(q)
+        )
+      ) return true;
       return (question.enrichment?.keywords ?? []).some((k) =>
         k.toLowerCase().includes(q)
       );
