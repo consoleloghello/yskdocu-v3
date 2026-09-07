@@ -5,6 +5,11 @@ import type {
   InputHTMLAttributes,
   ReactNode,
 } from "react";
+import {
+  motionKeyframes,
+  motionTransition,
+  skeletonDurationMs,
+} from "../styles/motion.ts";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 
@@ -49,7 +54,7 @@ export function Button({
         fontWeight: 500,
         cursor: "pointer",
         width: block ? "100%" : undefined,
-        transition: "opacity var(--transition), transform var(--transition)",
+        transition: motionTransition.fadeLift,
         ...buttonVariants[variant],
         ...style,
       }}
@@ -79,7 +84,7 @@ export function Card({
         boxShadow: "var(--shadow)",
         padding: 16,
         cursor: onClick ? "pointer" : undefined,
-        transition: "transform var(--transition)",
+        transition: motionTransition.lift,
         ...style,
       }}
     >
@@ -134,7 +139,7 @@ export function Progress({ value, max }: { value: number; max: number }) {
           height: "100%",
           background: "var(--primary)",
           borderRadius: 999,
-          transition: "width var(--transition)",
+          transition: motionTransition.bar,
         }}
       />
     </div>
@@ -170,7 +175,8 @@ export function Skeleton({ height = 16 }: { height?: number }) {
         background:
           "linear-gradient(90deg, var(--border) 25%, var(--bg) 50%, var(--border) 75%)",
         backgroundSize: "200% 100%",
-        animation: "skeleton 1.2s infinite",
+        animation:
+          `${motionKeyframes.skeleton} ${skeletonDurationMs}ms infinite`,
       }}
     />
   );
