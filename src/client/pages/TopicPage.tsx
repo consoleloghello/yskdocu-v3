@@ -3,13 +3,7 @@ import { Link, useParams } from "react-router-dom";
 import type { Question } from "../../shared/types/content.ts";
 import { apiClient } from "../lib/api.ts";
 import { Badge, Card, Skeleton } from "../components/ui.tsx";
-
-const TYPE_LABEL: Record<string, string> = {
-  single_choice: "选择",
-  true_false: "判断",
-  fill_blank: "填空",
-  short_answer: "简答",
-};
+import { QuestionTypeLabel } from "../components/questions.tsx";
 
 export function TopicPage() {
   const { topicId } = useParams<{ topicId: string }>();
@@ -42,7 +36,7 @@ export function TopicPage() {
         {questions.map((q) => (
           <Card key={q.id}>
             <div style={{ display: "flex", gap: 8, marginBottom: 6 }}>
-              <Badge>{TYPE_LABEL[q.type]}</Badge>
+              <Badge>{QuestionTypeLabel[q.type]}</Badge>
               <span style={{ fontSize: 12, color: "var(--text-secondary)" }}>
                 #{q.metadata.number}
               </span>
