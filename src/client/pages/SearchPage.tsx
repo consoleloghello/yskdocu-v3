@@ -8,7 +8,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import type { CatalogChapter, Question } from "../../shared/types/content.ts";
 import { apiClient } from "../lib/api.ts";
-import { Card, Input } from "../components/ui.tsx";
+import { Card, EmptyState, Input } from "../components/ui.tsx";
 import { QuestionTypeLabel } from "../components/questions.tsx";
 
 export function SearchPage() {
@@ -16,6 +16,7 @@ export function SearchPage() {
   const [results, setResults] = useState<Question[]>([]);
   const [count, setCount] = useState(0);
   const [chapters, setChapters] = useState<CatalogChapter[]>([]);
+  const [done, setDone] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
 
   // ⌘K / Ctrl+K 聚焦搜索框
@@ -37,6 +38,7 @@ export function SearchPage() {
       setChapters([]);
       return;
     }
+    setDone(false);
     const t = setTimeout(() => {
       const q = query.trim();
       Promise.all([
@@ -46,6 +48,7 @@ export function SearchPage() {
         .then(([r, cat]) => {
           setResults(r.results);
           setCount(r.count);
+          setDone(true);
           const needle = q.toLowerCase();
           setChapters(
             (cat?.chapters ?? []).filter((c) =>
@@ -120,6 +123,14 @@ export function SearchPage() {
             ))}
           </div>
         </section>
+      )}
+
+      {searching && done && chapters.length === 0 && results.length === 0 && (
+        <EmptyState
+          icon="🔍"
+          title="没有找到相关内容"
+          hint="换个关键词试试，比如设备名或工艺词"
+        />
       )}
 
       {searching && (

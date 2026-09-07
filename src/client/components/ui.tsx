@@ -1,4 +1,8 @@
-/** 基础 UI 组件（Button / Card / Badge / Progress / Input / Skeleton） */
+/**
+ * 基础 UI 组件（Button / Card / Badge / Progress / Input / Skeleton /
+ * EmptyState / ErrorState / Toast）
+ */
+import { useCallback, useEffect, useRef, useState } from "react";
 import type {
   ButtonHTMLAttributes,
   CSSProperties,
@@ -168,6 +172,101 @@ export function Input(
       {...props}
     />
   );
+}
+
+export function EmptyState(
+  { icon = "📭", title, hint, action }: {
+    icon?: string;
+    title: string;
+    hint?: ReactNode;
+    action?: ReactNode;
+  },
+) {
+  return (
+    <div
+      style={{
+        textAlign: "center",
+        padding: "40px 20px",
+        color: "var(--text-secondary)",
+      }}
+    >
+      <div style={{ fontSize: 36 }}>{icon}</div>
+      <div
+        style={{
+          fontSize: 15,
+          fontWeight: 600,
+          marginTop: 8,
+          color: "var(--text)",
+        }}
+      >
+        {title}
+      </div>
+      {hint && <div style={{ fontSize: 13, marginTop: 4 }}>{hint}</div>}
+      {action && <div style={{ marginTop: 12 }}>{action}</div>}
+    </div>
+  );
+}
+
+export function ErrorState(
+  { message = "加载失败，请刷新重试。", onRetry }: {
+    message?: string;
+    onRetry?: () => void;
+  },
+) {
+  return (
+    <div style={{ textAlign: "center", padding: "40px 20px" }}>
+      <div style={{ fontSize: 36 }}>⚠️</div>
+      <p style={{ color: "var(--text-secondary)", fontSize: 14 }}>{message}</p>
+      {onRetry && <Button onClick={onRetry}>重试</Button>}
+    </div>
+  );
+}
+
+export function Toast({ message }: { message: string | null }) {
+  if (!message) return null;
+  return (
+    <div
+      role="status"
+      style={{
+        position: "fixed",
+        left: "50%",
+        bottom: 32,
+        transform: "translateX(-50%)",
+        background: "var(--text)",
+        color: "var(--bg)",
+        fontSize: 14,
+        padding: "10px 18px",
+        borderRadius: 999,
+        boxShadow: "var(--shadow)",
+        zIndex: 100,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {message}
+    </div>
+  );
+}
+
+/** 轻量 toast：返回 [当前消息, 弹出消息]，自动按时消失 */
+export function useToast(
+  timeoutMs = 1600,
+): [string | null, (msg: string) => void] {
+  const [message, setMessage] = useState<string | null>(null);
+  const timer = useRef<number | null>(null);
+
+  useEffect(() => {
+    return () => {
+      if (timer.current !== null) window.clearTimeout(timer.current);
+    };
+  }, []);
+
+  const show = useCallback((msg: string) => {
+    setMessage(msg);
+    if (timer.current !== null) window.clearTimeout(timer.current);
+    timer.current = window.setTimeout(() => setMessage(null), timeoutMs);
+  }, [timeoutMs]);
+
+  return [message, show];
 }
 
 export function Skeleton({ height = 16 }: { height?: number }) {

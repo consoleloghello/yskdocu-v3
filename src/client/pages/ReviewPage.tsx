@@ -13,7 +13,7 @@ import type { Catalog, Question } from "../../shared/types/content.ts";
 import { apiClient } from "../lib/api.ts";
 import { defaultStorage, loadLearningState } from "../lib/learningState.ts";
 import type { LearningState } from "../lib/learningState.ts";
-import { Card, Progress, Skeleton } from "../components/ui.tsx";
+import { Card, EmptyState, Progress, Skeleton } from "../components/ui.tsx";
 import { QuestionTypeLabel } from "../components/questions.tsx";
 
 function QuestionRow(
@@ -97,12 +97,12 @@ export function ReviewPage() {
       <h1 style={{ fontSize: 20, marginBottom: 0 }}>复习</h1>
 
       {allClear && favs.length === 0 && (
-        <Card>
-          <div style={{ fontSize: 15 }}>🎉 暂无错题，继续保持！</div>
-          <div style={{ fontSize: 13, color: "var(--text-secondary)" }}>
-            去<Link to="/practice">练习</Link>检验一下学习成果吧。
-          </div>
-        </Card>
+        <EmptyState
+          icon="🎉"
+          title="暂无错题，继续保持！"
+          hint="去检验一下学习成果吧"
+          action={<Link to="/practice">去练习</Link>}
+        />
       )}
 
       {weak.length > 0 && (

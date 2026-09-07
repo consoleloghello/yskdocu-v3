@@ -23,7 +23,14 @@ import {
   setLastPosition,
   toggleFavorite,
 } from "../lib/learningState.ts";
-import { Button, Card, Progress, Skeleton } from "../components/ui.tsx";
+import {
+  Button,
+  Card,
+  Progress,
+  Skeleton,
+  Toast,
+  useToast,
+} from "../components/ui.tsx";
 import { QuestionRenderer } from "../components/questions.tsx";
 
 // ── 章节选择 ─────────────────────────────────────────────
@@ -104,6 +111,7 @@ export function PracticeSession() {
   const [correctCount, setCorrectCount] = useState(0);
   const [finished, setFinished] = useState(false);
   const [fav, setFav] = useState(false);
+  const [toast, showToast] = useToast();
 
   useEffect(() => {
     if (!chapterId) return;
@@ -182,7 +190,9 @@ export function PracticeSession() {
     const storage = defaultStorage();
     const next = toggleFavorite(loadLearningState(storage), q.id);
     saveLearningState(storage, next);
-    setFav(next.favorites.includes(q.id));
+    const on = next.favorites.includes(q.id);
+    setFav(on);
+    showToast(on ? "已收藏" : "已取消收藏");
   };
 
   const handleResult = (correct: boolean) => {
@@ -261,6 +271,7 @@ export function PracticeSession() {
           </Button>
         </div>
       )}
+      <Toast message={toast} />
     </div>
   );
 }
