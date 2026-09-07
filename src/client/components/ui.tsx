@@ -164,7 +164,8 @@ export function Input(
         padding: "10px 14px",
         borderRadius: "var(--radius)",
         border: "1px solid var(--border)",
-        fontSize: 15,
+        // 16px：iOS Safari 聚焦小于 16px 的输入框会自动缩放页面
+        fontSize: 16,
         background: "var(--surface)",
         color: "var(--text)",
         outline: "none",

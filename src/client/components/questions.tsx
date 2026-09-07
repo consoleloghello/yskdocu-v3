@@ -272,7 +272,8 @@ export function FillBlankQuestion({ question, onResult }: QCProps) {
                 }}
                 style={{
                   width: 90,
-                  fontSize: 15,
+                  // 16px：防止 iOS Safari 聚焦时自动缩放
+                  fontSize: 16,
                   padding: "4px 8px",
                   margin: "0 4px",
                   borderRadius: 6,
@@ -332,7 +333,8 @@ export function ShortAnswerQuestion({ question, onResult }: QCProps) {
               placeholder="写下你的回答…"
               style={{
                 width: "100%",
-                fontSize: 15,
+                // 16px：防止 iOS Safari 聚焦时自动缩放
+                fontSize: 16,
                 padding: "10px 14px",
                 borderRadius: "var(--radius)",
                 border: "1px solid var(--border)",
