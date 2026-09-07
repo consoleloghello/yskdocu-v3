@@ -1,5 +1,10 @@
 /** 基础 UI 组件（Button / Card / Badge / Progress / Input / Skeleton） */
-import type { CSSProperties, ReactNode } from "react";
+import type {
+  ButtonHTMLAttributes,
+  CSSProperties,
+  InputHTMLAttributes,
+  ReactNode,
+} from "react";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger";
 
@@ -33,7 +38,7 @@ export function Button({
   children: ReactNode;
   variant?: Variant;
   block?: boolean;
-} & React.ButtonHTMLAttributes<HTMLButtonElement>) {
+} & ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
     <button
       style={{
@@ -137,7 +142,7 @@ export function Progress({ value, max }: { value: number; max: number }) {
 }
 
 export function Input(
-  props: React.InputHTMLAttributes<HTMLInputElement>,
+  props: InputHTMLAttributes<HTMLInputElement>,
 ) {
   return (
     <input
