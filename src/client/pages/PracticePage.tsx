@@ -21,6 +21,7 @@ import {
   recordAnswer,
   saveLearningState,
   setLastPosition,
+  toggleFavorite,
 } from "../lib/learningState.ts";
 import { Button, Card, Progress, Skeleton } from "../components/ui.tsx";
 import { QuestionRenderer } from "../components/questions.tsx";
@@ -102,6 +103,7 @@ export function PracticeSession() {
   const [answered, setAnswered] = useState(false);
   const [correctCount, setCorrectCount] = useState(0);
   const [finished, setFinished] = useState(false);
+  const [fav, setFav] = useState(false);
 
   useEffect(() => {
     if (!chapterId) return;
@@ -141,7 +143,7 @@ export function PracticeSession() {
               marginBottom: 0,
             }}
           >
-            错题已记入复习候选（Day 3 复习页使用）。
+            错题已记入<Link to="/review">复习页</Link>。
           </p>
         </Card>
         <Button
@@ -164,6 +166,18 @@ export function PracticeSession() {
 
   const q = questions[index];
   const isLast = index === questions.length - 1;
+
+  // 当前题目的收藏状态跟随切题刷新
+  useEffect(() => {
+    setFav(loadLearningState(defaultStorage()).favorites.includes(q.id));
+  }, [q.id]);
+
+  const flipFav = () => {
+    const storage = defaultStorage();
+    const next = toggleFavorite(loadLearningState(storage), q.id);
+    saveLearningState(storage, next);
+    setFav(next.favorites.includes(q.id));
+  };
 
   const handleResult = (correct: boolean) => {
     if (answered) return;
@@ -188,8 +202,33 @@ export function PracticeSession() {
         }}
       >
         <span style={{ fontSize: 14, fontWeight: 600 }}>{name}</span>
-        <span style={{ fontSize: 13, color: "var(--text-secondary)" }}>
+        <span
+          style={{
+            display: "flex",
+            gap: 8,
+            alignItems: "center",
+            fontSize: 13,
+            color: "var(--text-secondary)",
+          }}
+        >
           第 {index + 1} / {questions.length} 题 · 答对 {correctCount}
+          <button
+            type="button"
+            onClick={flipFav}
+            aria-label={fav ? "取消收藏" : "收藏"}
+            title={fav ? "取消收藏" : "收藏"}
+            style={{
+              border: "1px solid var(--border)",
+              background: "var(--surface)",
+              borderRadius: 8,
+              fontSize: 15,
+              padding: "2px 8px",
+              cursor: "pointer",
+              color: fav ? "var(--primary)" : "var(--text-secondary)",
+            }}
+          >
+            {fav ? "★" : "☆"}
+          </button>
         </span>
       </div>
       <div style={{ marginBottom: 12 }}>
