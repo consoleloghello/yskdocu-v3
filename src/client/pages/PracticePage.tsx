@@ -117,6 +117,12 @@ export function PracticeSession() {
       .then((ch) => {
         setName(ch.name);
         setQuestions(ch.questions);
+        // Task 25：断点续练——回到上次位置
+        const last = loadLearningState(defaultStorage()).lastPosition;
+        if (last?.chapterId === chapterId && last.questionId) {
+          const idx = ch.questions.findIndex((q) => q.id === last.questionId);
+          if (idx > 0) setIndex(idx);
+        }
       })
       .catch(() => setError(true));
   }, [chapterId]);

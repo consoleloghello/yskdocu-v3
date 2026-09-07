@@ -72,8 +72,8 @@ export function HomePage() {
           <div style={{ fontWeight: 600, fontSize: 16, margin: "4px 0 12px" }}>
             {lastChapter.name}
           </div>
-          <Link to={`/learn/${lastChapter.id}`}>
-            <Button block>继续</Button>
+          <Link to={`/practice/${lastChapter.id}`}>
+            <Button block>继续练习</Button>
           </Link>
         </Card>
       )}
