@@ -2,8 +2,8 @@
  * Hono API 集成测试 —— 直接调用 api.fetch()，不启动端口。
  * 依赖 data/generated/ 产物（缺失时跳过）。
  *
- * 覆盖：/api/health /api/catalog /api/questions（列表 + 过滤 +
- * 非法 type 400）/api/questions/:id（404）/api/search。
+ * 覆盖：/api/health /api/catalog /api/collections /api/questions
+ * （列表 + 过滤 + 非法 type 400）/api/questions/:id（404）/api/search。
  */
 
 import { assert, assertEquals } from "@std/assert";
@@ -30,6 +30,18 @@ Deno.test("api: GET /catalog 返回目录", async () => {
   const body = await res.json();
   assert(body.totalQuestions > 0);
   assert(body.chapters.length > 0);
+});
+
+Deno.test("api: GET /collections 返回合集列表", async () => {
+  if (!await generatedAvailable()) {
+    console.warn(skipReason());
+    return;
+  }
+  const res = await get("/collections");
+  assertEquals(res.status, 200);
+  const body = await res.json() as { key: string; chapterIds: string[] }[];
+  assert(body.length > 0);
+  assert(body.every((c) => c.key && c.chapterIds.length > 0));
 });
 
 Deno.test("api: GET /questions 列表 + 题型过滤 + 非法 type 400", async () => {

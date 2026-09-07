@@ -3,6 +3,7 @@
  *
  * GET /api/health          健康检查
  * GET /api/catalog         目录（章节概览 + 统计）
+ * GET /api/collections     合集列表（Collection，即数据来源）
  * GET /api/chapters        章节详情列表
  * GET /api/chapters/:id    单章节（含题目）
  * GET /api/questions       题目列表（?chapterId=&type=&limit=&offset=）
@@ -15,6 +16,7 @@ import {
   getCatalog,
   getChapter,
   getChapterQuestions,
+  getCollections,
   getQuestion,
   listQuestions,
   searchQuestions,
@@ -26,6 +28,8 @@ export const api = new Hono();
 api.get("/health", (c) => c.json({ ok: true, name: "yskdocu-v3" }));
 
 api.get("/catalog", async (c) => c.json(await getCatalog()));
+
+api.get("/collections", async (c) => c.json(await getCollections()));
 
 api.get(
   "/chapters",

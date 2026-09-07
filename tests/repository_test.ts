@@ -1,7 +1,7 @@
 /**
  * Repository 测试 —— 依赖 data/generated/ 产物（缺失时跳过）。
  *
- * 覆盖：getCatalog / getChapter / getQuestion /
+ * 覆盖：getCatalog / getCollections / getChapter / getQuestion /
  * listQuestions（过滤 + 分页）/ searchQuestions（含选项文本）。
  */
 
@@ -9,6 +9,7 @@ import { assert, assertEquals } from "@std/assert";
 import {
   getCatalog,
   getChapter,
+  getCollections,
   getQuestion,
   listQuestions,
   searchQuestions,
@@ -25,6 +26,23 @@ Deno.test("repository: getCatalog 返回章节概览与总数", async () => {
   assert(catalog.chapters.length > 0);
   const sum = catalog.chapters.reduce((n, c) => n + c.questionCount, 0);
   assertEquals(sum, catalog.totalQuestions);
+});
+
+Deno.test("repository: getCollections 按来源聚合章节", async () => {
+  if (!await generatedAvailable()) {
+    console.warn(skipReason());
+    return;
+  }
+  const collections = await getCollections();
+  const catalog = await getCatalog();
+  assertEquals(collections.length, Object.keys(catalog.sources).length);
+  const totalChapters = collections.reduce(
+    (n, c) => n + c.chapterIds.length,
+    0,
+  );
+  assertEquals(totalChapters, catalog.chapters.length);
+  const totalQuestions = collections.reduce((n, c) => n + c.total, 0);
+  assertEquals(totalQuestions, catalog.totalQuestions);
 });
 
 Deno.test("repository: getChapter 取到章节详情（含 questionIds）", async () => {

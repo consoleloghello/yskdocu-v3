@@ -8,6 +8,7 @@
 import type {
   Catalog,
   ChapterDetail,
+  Collection,
   Question,
   QuestionType,
 } from "../../shared/types/content.ts";
@@ -69,6 +70,18 @@ export async function getChapter(
 
 export async function getChapterQuestions(id: string): Promise<Question[]> {
   return (await load()).questionsByChapter.get(id) ?? [];
+}
+
+/** Collection 列表：从 catalog.sources + chapters 推导（不单独落盘） */
+export async function getCollections(): Promise<Collection[]> {
+  const { catalog, chapters } = await load();
+  return Object.entries(catalog.sources).map(([key, info]) => ({
+    key,
+    title: info.title,
+    version: info.version,
+    total: info.total,
+    chapterIds: chapters.filter((c) => c.source === key).map((c) => c.id),
+  }));
 }
 
 export async function getQuestion(id: string): Promise<Question | undefined> {

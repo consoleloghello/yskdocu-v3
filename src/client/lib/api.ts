@@ -3,6 +3,7 @@
 import type {
   Catalog,
   ChapterDetail,
+  Collection,
   Question,
   QuestionType,
 } from "../../shared/types/content.ts";
@@ -22,6 +23,7 @@ async function get<T>(path: string): Promise<T> {
 
 export const apiClient = {
   catalog: () => get<Catalog>("/api/catalog"),
+  collections: () => get<Collection[]>("/api/collections"),
   chapter: (id: string) =>
     get<ChapterDetail & { questions: Question[] }>(`/api/chapters/${id}`),
   questions: (params: ListQuestionsParams = {}) => {

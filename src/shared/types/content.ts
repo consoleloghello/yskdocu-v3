@@ -119,3 +119,39 @@ export interface Catalog {
 export interface ChapterDetail extends CatalogChapter {
   questionIds: string[];
 }
+
+// ── 命名映射（plan.md ↔ 实现）────────────────────────────
+//
+// plan.md 的学习模型是 Collection → Topic → Knowledge；
+// 实际数据只有两层（来源 → 章节），映射关系定死如下，
+// 全栈统一使用，别名即正名，不再争论：
+//
+//   Collection ＝ 数据来源（内操版 / 外操版，对应 catalog.sources）
+//   Topic      ＝ Chapter（18 章，按工艺系统划分；路由 :topicId 即 chapter id）
+//   Knowledge  ＝ QuestionEnrichment（keywords / keyPoints / summary）
+
+/** Topic 即 Chapter：学习路径上的一个主题单元 */
+export type Topic = Chapter;
+
+/** Topic 概览（目录用）即 CatalogChapter */
+export type TopicOverview = CatalogChapter;
+
+/** Topic 详情（含题目 id 列表）即 ChapterDetail */
+export type TopicDetail = ChapterDetail;
+
+/** Knowledge 即题目富化出的知识陈列 */
+export type Knowledge = QuestionEnrichment;
+
+/**
+ * Collection：一个数据来源（版本）下的合集。
+ * 由 repository.getCollections() 从 catalog 推导，不单独落盘。
+ */
+export interface Collection {
+  /** 来源 key，如 "wai" */
+  key: string;
+  /** 如 "外操版" */
+  title: string;
+  version: string;
+  total: number;
+  chapterIds: string[];
+}
