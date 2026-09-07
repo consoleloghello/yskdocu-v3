@@ -16,6 +16,22 @@
   --radius: 12px;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.08);
   --transition: 180ms ease;
+  color-scheme: light;
+}
+
+/* 深色主题：仅覆盖变量，组件样式零改动 */
+[data-theme="dark"] {
+  --bg: #101418;
+  --surface: #1a2027;
+  --text: #e6eaf0;
+  --text-secondary: #9aa5b1;
+  --border: #2b333d;
+  --primary: #3b82f6;
+  --primary-weak: #1c2f4d;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --shadow: 0 1px 3px rgb(0 0 0 / 0.4);
+  color-scheme: dark;
 }
 
 * {

@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { NavLink, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.tsx";
 import { LearnPage } from "./pages/LearnPage.tsx";
@@ -5,6 +6,13 @@ import { TopicPage } from "./pages/TopicPage.tsx";
 import { SearchPage } from "./pages/SearchPage.tsx";
 import { PracticePage, PracticeSession } from "./pages/PracticePage.tsx";
 import { ReviewPage } from "./pages/ReviewPage.tsx";
+import { defaultStorage } from "./lib/learningState.ts";
+import {
+  applyTheme,
+  loadTheme,
+  saveTheme,
+  toggleThemeValue,
+} from "./lib/theme.ts";
 
 const navStyle = {
   display: "flex",
@@ -27,6 +35,13 @@ const linkStyle = (active: boolean) => ({
 });
 
 export function App() {
+  const [theme, setTheme] = useState(loadTheme);
+
+  useEffect(() => {
+    applyTheme(theme);
+    saveTheme(defaultStorage(), theme);
+  }, [theme]);
+
   return (
     <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px 40px" }}>
       <nav style={navStyle}>
@@ -46,6 +61,24 @@ export function App() {
             {label}
           </NavLink>
         ))}
+        <button
+          type="button"
+          onClick={() =>
+            setTheme(toggleThemeValue(theme))}
+          aria-label={theme === "light" ? "切换深色模式" : "切换浅色模式"}
+          title={theme === "light" ? "深色模式" : "浅色模式"}
+          style={{
+            marginLeft: "auto",
+            border: "1px solid var(--border)",
+            background: "transparent",
+            borderRadius: 8,
+            fontSize: 15,
+            padding: "4px 10px",
+            cursor: "pointer",
+          }}
+        >
+          {theme === "light" ? "🌙" : "☀️"}
+        </button>
       </nav>
       <main style={{ paddingTop: 16 }}>
         <Routes>
