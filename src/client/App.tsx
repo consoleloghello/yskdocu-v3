@@ -4,7 +4,7 @@ import { LearnPage } from "./pages/LearnPage.tsx";
 import { TopicPage } from "./pages/TopicPage.tsx";
 import { SearchPage } from "./pages/SearchPage.tsx";
 import { PracticePage, PracticeSession } from "./pages/PracticePage.tsx";
-import { ReviewPage } from "./pages/PlaceholderPages.tsx";
+import { ReviewPage } from "./pages/ReviewPage.tsx";
 
 const navStyle = {
   display: "flex",
