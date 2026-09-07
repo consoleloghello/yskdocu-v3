@@ -4,6 +4,7 @@ import type {
   CSSProperties,
   InputHTMLAttributes,
   ReactNode,
+  Ref,
 } from "react";
 import {
   motionKeyframes,
@@ -147,10 +148,13 @@ export function Progress({ value, max }: { value: number; max: number }) {
 }
 
 export function Input(
-  props: InputHTMLAttributes<HTMLInputElement>,
+  { ref, ...props }: InputHTMLAttributes<HTMLInputElement> & {
+    ref?: Ref<HTMLInputElement>;
+  },
 ) {
   return (
     <input
+      ref={ref}
       style={{
         width: "100%",
         padding: "10px 14px",
