@@ -1,5 +1,5 @@
 /**
- * 题目渲染体系（Task 16 / 21 / 22）
+ * 题目渲染体系
  *
  * <QuestionRenderer question onResult /> 按 question.type 分发；
  * 各题型组件内部管理「作答 → 提交 → 反馈 → 解析」状态机，
@@ -23,7 +23,7 @@ export const QuestionTypeLabel: Record<QuestionType, string> = {
 
 const feedbackStyle: Record<GradeStatus, { bg: string; color: string }> = {
   correct: { bg: "var(--primary-weak)", color: "var(--success)" },
-  incorrect: { bg: "#fef2f2", color: "var(--danger)" },
+  incorrect: { bg: "var(--danger-weak)", color: "var(--danger)" },
   manual: { bg: "var(--primary-weak)", color: "var(--primary)" },
 };
 
@@ -391,5 +391,7 @@ export function QuestionRenderer(
       return <FillBlankQuestion question={question} onResult={onResult} />;
     case "short_answer":
       return <ShortAnswerQuestion question={question} onResult={onResult} />;
+    default:
+      return <p>未知题型: {(question as { type: string }).type}</p>;
   }
 }

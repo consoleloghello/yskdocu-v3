@@ -13,6 +13,7 @@
   --primary-weak: #eff6ff;
   --success: #16a34a;
   --danger: #dc2626;
+  --danger-weak: #fef2f2;
   --radius: 12px;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.08);
   --transition: 180ms ease;
@@ -30,6 +31,7 @@
   --primary-weak: #1c2f4d;
   --success: #22c55e;
   --danger: #ef4444;
+  --danger-weak: #2a1215;
   --shadow: 0 1px 3px rgb(0 0 0 / 0.4);
   color-scheme: dark;
 }
