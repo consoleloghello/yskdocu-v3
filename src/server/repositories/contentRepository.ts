@@ -16,7 +16,7 @@ import type {
 // Catalog / CatalogChapter / ChapterDetail 统一定义在 shared/types/content.ts，
 // server 与 client 都从 shared 引用，不得跨层直接引用对方模块。
 
-const GEN_DIR = new URL("../../data/generated", import.meta.url).pathname;
+const GEN_DIR = new URL("../../../data/generated", import.meta.url).pathname;
 
 interface Loaded {
   catalog: Catalog;
