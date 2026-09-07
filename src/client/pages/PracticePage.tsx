@@ -135,6 +135,15 @@ export function PracticeSession() {
       .catch(() => setError(true));
   }, [chapterId]);
 
+  // 当前题目的收藏状态跟随切题刷新。
+  // 注意：必须放在所有 early return 之前，否则违反 Rules of Hooks
+  //（questions 从 null → 有数据时执行的 Hook 数量会变化）。
+  useEffect(() => {
+    if (!questions || questions.length === 0) return;
+    const cur = questions[Math.min(index, questions.length - 1)];
+    setFav(loadLearningState(defaultStorage()).favorites.includes(cur.id));
+  }, [questions, index]);
+
   if (error) return <p>加载失败：章节不存在或网络错误。</p>;
   if (!questions || !chapterId) return <Skeleton height={300} />;
   if (questions.length === 0) return <p>该章节暂无题目。</p>;
@@ -180,11 +189,6 @@ export function PracticeSession() {
 
   const q = questions[index];
   const isLast = index === questions.length - 1;
-
-  // 当前题目的收藏状态跟随切题刷新
-  useEffect(() => {
-    setFav(loadLearningState(defaultStorage()).favorites.includes(q.id));
-  }, [q.id]);
 
   const flipFav = () => {
     const storage = defaultStorage();
