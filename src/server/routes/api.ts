@@ -16,6 +16,7 @@ import {
   getCatalog,
   getChapter,
   getChapterQuestions,
+  getChapters,
   getCollections,
   getQuestion,
   listQuestions,
@@ -31,16 +32,15 @@ api.get("/catalog", async (c) => c.json(await getCatalog()));
 
 api.get("/collections", async (c) => c.json(await getCollections()));
 
-api.get(
-  "/chapters",
-  async (c) => c.json(await getCatalog().then((cat) => cat.chapters)),
-);
+api.get("/chapters", async (c) => c.json(await getChapters()));
 
 api.get("/chapters/:id", async (c) => {
   const id = c.req.param("id");
-  const chapter = await getChapter(id);
+  const [chapter, questions] = await Promise.all([
+    getChapter(id),
+    getChapterQuestions(id),
+  ]);
   if (!chapter) return c.json({ error: "chapter not found" }, 404);
-  const questions = await getChapterQuestions(id);
   return c.json({ ...chapter, questions });
 });
 
@@ -57,8 +57,8 @@ api.get("/questions", async (c) => {
   if (typeParam && !QUESTION_TYPES.includes(typeParam as QuestionType)) {
     return c.json({ error: `invalid type: ${typeParam}` }, 400);
   }
-  const limit = Number(c.req.query("limit") ?? 20);
-  const offset = Number(c.req.query("offset") ?? 0);
+  const limit = Number(c.req.query("limit")) || 20;
+  const offset = Number(c.req.query("offset")) || 0;
   const { total, results } = await listQuestions({
     chapterId,
     type: (typeParam as QuestionType | undefined) ?? undefined,
