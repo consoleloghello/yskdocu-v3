@@ -39,3 +39,19 @@ body {
     background-position: -200% 0;
   }
 }
+
+/* 切题进入：淡入 + 轻微上浮（240ms，对齐 motionDuration.base） */
+@keyframes question-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.question-enter {
+  animation: question-in 240ms ease;
+}

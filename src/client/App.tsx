@@ -2,7 +2,8 @@ import { NavLink, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.tsx";
 import { TopicPage } from "./pages/TopicPage.tsx";
 import { SearchPage } from "./pages/SearchPage.tsx";
-import { PracticePage, ReviewPage } from "./pages/PlaceholderPages.tsx";
+import { PracticePage, PracticeSession } from "./pages/PracticePage.tsx";
+import { ReviewPage } from "./pages/PlaceholderPages.tsx";
 
 const navStyle = {
   display: "flex",
@@ -51,6 +52,7 @@ export function App() {
           <Route path="/learn" element={<HomePage />} />
           <Route path="/learn/:topicId" element={<TopicPage />} />
           <Route path="/practice" element={<PracticePage />} />
+          <Route path="/practice/:chapterId" element={<PracticeSession />} />
           <Route path="/review" element={<ReviewPage />} />
           <Route path="/search" element={<SearchPage />} />
         </Routes>

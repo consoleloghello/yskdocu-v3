@@ -52,7 +52,10 @@ export function TopicPage() {
         ))}
       </div>
       <div style={{ marginTop: 20 }}>
-        <Link to="/practice" style={{ color: "var(--primary)" }}>
+        <Link
+          to={`/practice/${topicId}`}
+          style={{ color: "var(--primary)" }}
+        >
           进入练习 →
         </Link>
       </div>
