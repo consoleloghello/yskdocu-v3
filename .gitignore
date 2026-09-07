@@ -2,5 +2,7 @@ node_modules/
 dist/
 .vite/
 data/generated/
+# 管线中间产物（可随时用 data:import / data:enrich 重建，不进 Git）
+data/normalized/*.json
 .env
 .DS_Store
