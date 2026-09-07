@@ -1,5 +1,5 @@
 /**
- * 搜索页（Task 27）—— ⌘K / Ctrl+K 聚焦，结果按主题 / 题目分组。
+ * 搜索页 —— ⌘K / Ctrl+K 聚焦，结果按主题 / 题目分组。
  *
  * 主题匹配在前端对 catalog 做名字过滤，题目走 /api/search。
  */
@@ -18,6 +18,9 @@ export function SearchPage() {
   const [chapters, setChapters] = useState<CatalogChapter[]>([]);
   const [done, setDone] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
+  const isMac = typeof navigator !== "undefined" && /Mac|iPod|iPhone|iPad/.test(
+    navigator.platform,
+  );
 
   // ⌘K / Ctrl+K 聚焦搜索框
   useEffect(() => {
@@ -56,7 +59,7 @@ export function SearchPage() {
             ),
           );
         })
-        .catch(() => {});
+        .catch(() => setDone(true));
     }, 250);
     return () => clearTimeout(t);
   }, [query]);
@@ -83,7 +86,7 @@ export function SearchPage() {
             background: "var(--surface)",
           }}
         >
-          ⌘K
+          {isMac ? "⌘K" : "Ctrl+K"}
         </kbd>
       </div>
       <div style={{ marginTop: 12 }}>
