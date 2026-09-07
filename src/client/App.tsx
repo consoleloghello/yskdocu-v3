@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { NavLink, Route, Routes } from "react-router-dom";
+import { NavLink, Route, Routes, useLocation } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.tsx";
 import { LearnPage } from "./pages/LearnPage.tsx";
 import { TopicPage } from "./pages/TopicPage.tsx";
@@ -36,6 +36,7 @@ const linkStyle = (active: boolean) => ({
 
 export function App() {
   const [theme, setTheme] = useState(loadTheme);
+  const { pathname } = useLocation();
 
   useEffect(() => {
     applyTheme(theme);
@@ -43,7 +44,13 @@ export function App() {
   }, [theme]);
 
   return (
-    <div style={{ maxWidth: 640, margin: "0 auto", padding: "0 16px 40px" }}>
+    <div
+      style={{
+        maxWidth: 640,
+        margin: "0 auto",
+        padding: "0 16px calc(40px + env(safe-area-inset-bottom))",
+      }}
+    >
       <nav style={navStyle}>
         {[
           ["/", "首页"],
@@ -63,8 +70,7 @@ export function App() {
         ))}
         <button
           type="button"
-          onClick={() =>
-            setTheme(toggleThemeValue(theme))}
+          onClick={() => setTheme(toggleThemeValue(theme))}
           aria-label={theme === "light" ? "切换深色模式" : "切换浅色模式"}
           title={theme === "light" ? "深色模式" : "浅色模式"}
           style={{
@@ -80,7 +86,7 @@ export function App() {
           {theme === "light" ? "🌙" : "☀️"}
         </button>
       </nav>
-      <main style={{ paddingTop: 16 }}>
+      <main key={pathname} className="page-enter" style={{ paddingTop: 16 }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/learn" element={<LearnPage />} />

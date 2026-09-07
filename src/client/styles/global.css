@@ -71,3 +71,31 @@ body {
 .question-enter {
   animation: question-in 240ms ease;
 }
+
+/* 路由切换：页面淡入（180ms，对齐 motionDuration.fast） */
+@keyframes page-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.page-enter {
+  animation: page-in 180ms ease;
+}
+
+/* 移动端：导航在窄屏下横向滚动而不断行 */
+@media (max-width: 480px) {
+  nav {
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar {
+    display: none;
+  }
+  nav > * {
+    flex-shrink: 0;
+  }
+}
