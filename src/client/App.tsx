@@ -1,5 +1,6 @@
 import { NavLink, Route, Routes } from "react-router-dom";
 import { HomePage } from "./pages/HomePage.tsx";
+import { LearnPage } from "./pages/LearnPage.tsx";
 import { TopicPage } from "./pages/TopicPage.tsx";
 import { SearchPage } from "./pages/SearchPage.tsx";
 import { PracticePage, PracticeSession } from "./pages/PracticePage.tsx";
@@ -49,7 +50,7 @@ export function App() {
       <main style={{ paddingTop: 16 }}>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/learn" element={<HomePage />} />
+          <Route path="/learn" element={<LearnPage />} />
           <Route path="/learn/:topicId" element={<TopicPage />} />
           <Route path="/practice" element={<PracticePage />} />
           <Route path="/practice/:chapterId" element={<PracticeSession />} />
